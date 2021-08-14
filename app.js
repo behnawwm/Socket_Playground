@@ -9,17 +9,22 @@ var clients = 0;
 
 io.on("connection", function (socket) {
   clients++;
-  socket.emit("newclientconnect", { description: "Hey, welcome!" });
+
+  socket.emit("newclientconnect", { description: clients + ' clients connected!'});
+
   socket.broadcast.emit("newclientconnect", {
     description: clients + " clients connected!",
   });
+
   socket.on("disconnect", function () {
     clients--;
+
     socket.broadcast.emit("newclientconnect", {
       description: clients + " clients connected!",
     });
   });
 });
+
 http.listen(3000, function () {
   console.log("listening on localhost:3000");
 });
